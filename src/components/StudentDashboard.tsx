@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLmsStore } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { 
   Sparkles, Play, Award, Calendar, AlertCircle, 
   ArrowRight, Brain, Zap, Clock, ChevronRight, BookOpen 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLmsStore, getRegisteredStudents } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { Lock, Mail, ArrowRight, User, GraduationCap, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { PlanetLogo } from './PlanetLogo';
 

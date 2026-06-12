@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLmsStore } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { 
   Award, Heart, Calendar, ShieldCheck, CreditCard, 
   Sparkles, CheckCircle, Flame, Zap, Trophy 

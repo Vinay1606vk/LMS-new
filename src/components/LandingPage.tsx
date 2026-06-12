@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLmsStore } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { 
   ArrowRight, ShieldCheck, Video, Sparkles, Trophy, 
   Users, Activity, Heart, Star, Layout, CheckCircle 

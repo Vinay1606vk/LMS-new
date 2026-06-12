@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useLmsStore, Topic, Chapter, Subject } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
+import type { Topic, Chapter, Subject } from '../store/types';
 import { 
   Play, Pause, BookOpen, FileText, Bookmark, 
   CheckCircle, Plus, Trash2, ArrowRight, Star, Clock,

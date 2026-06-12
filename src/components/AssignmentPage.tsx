@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLmsStore } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { 
   FileText, Calendar, Upload, Check, AlertCircle, 
   ArrowRight, ShieldCheck, HelpCircle, CornerDownRight 

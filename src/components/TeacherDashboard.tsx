@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useLmsStore, Assignment } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
+import type { Assignment } from '../store/types';
 import { 
   Users, Star, BookOpen, DollarSign, FileText, Check, 
   ArrowRight, Upload, PenTool, Sparkles, ChevronRight 

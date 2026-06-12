@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useLmsStore, saveRegisteredStudent } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { 
   User, GraduationCap, ChevronRight, ChevronLeft, 
   Mail, Lock, BookOpen, Check, Wallet, HelpCircle, MapPin, Calendar, ArrowLeft

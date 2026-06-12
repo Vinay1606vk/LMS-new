@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLmsStore } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { PlanetLogo } from './PlanetLogo';
 import { 
   Sparkles, LayoutDashboard, BookOpen, FileText, Trophy, 

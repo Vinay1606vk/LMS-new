@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLmsStore, QuizQuestion, QuizResult, Chapter, Quiz } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
+import type { QuizQuestion, Quiz } from '../store/types';
 import { 
   Trophy, Clock, ChevronLeft, ChevronRight, HelpCircle, 
   CheckCircle, AlertCircle, ArrowRight, ShieldCheck, RefreshCw,

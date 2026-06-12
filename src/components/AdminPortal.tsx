@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLmsStore } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { 
   Plus, Check, Trash2, Settings, BarChart3, Users, 
   DollarSign, Activity, Database, ShieldAlert, Award, Grid 

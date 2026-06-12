@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLmsStore } from '../store/useLmsStore';
+import { useLmsStore } from '../store/index';
 import { 
   Bell, Sun, Moon, BookOpen, 
   Menu, X, Sparkles, LogOut, ChevronDown 
