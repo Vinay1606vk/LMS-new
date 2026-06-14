@@ -15,11 +15,12 @@ export const LoginPage: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const resolveEmail = () => {
+  const getLoginEmails = () => {
     const value = usernameOrEmail.trim();
-    if (value.includes('@')) return value.toLowerCase();
-    if (role === 'student') return `${value.toLowerCase()}@eduverse.in`;
-    return value.toLowerCase();
+    const normalized = value.toLowerCase();
+    if (normalized.includes('@')) return [normalized];
+    if (role === 'student') return [`${normalized}@eduverse.com`, `${normalized}@eduverse.in`];
+    return [normalized];
   };
 
   const openStudentWorkspace = (profile: Profile) => {

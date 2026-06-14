@@ -7,6 +7,21 @@ const router = Router();
 // Initialize Gemini API
 const apiKey = process.env.GEMINI_API_KEY;
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+const tutorModels = Array.from(
+  new Set([process.env.GEMINI_MODEL, 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'].filter(Boolean))
+);
+
+const buildFallbackAnswer = (question: string, reason: string) => `I'm your **AI Tutor Bot**, but the live AI service is temporarily unavailable.
+
+**Reason:** ${reason}
+
+Please try again in a minute. In the meantime, here's how I would approach your question:
+
+1. Identify the exact concept or formula involved.
+2. Write down the known values or facts from the problem.
+3. Solve one step at a time, checking each step before moving forward.
+
+*Current Question:* "${question}"`;
 
 router.post('/tutor', requireAuth, async (req, res) => {
   const { question, history } = req.body;
@@ -37,11 +52,6 @@ To get real AI answers, please set up your environment variables:
   }
 
   try {
-    const model = genAI.getGenerativeModel({ 
-      model: 'gemini-2.5-flash',
-      systemInstruction: 'You are an encouraging, expert AI Personal Tutor for a student. Keep your explanations clear, structured, and easy to understand. Use Markdown formatting. If the student asks a math/science question, explain step-by-step. If they ask a coding question, write clean code with comments. Always maintain a helpful, teacher-like tone.',
-    });
-
     // Format history for the Gemini API chat
     // The Gemini chat API history expects the format:
     // [{ role: 'user' | 'model', parts: [{ text: string }] }]
@@ -59,23 +69,45 @@ To get real AI answers, please set up your environment variables:
             role: msg.role === 'user' ? 'user' : 'model',
             parts: [{ text: msgText }]
           };
-        })
+      })
       : [];
 
-    const chat = model.startChat({
-      history: formattedHistory,
+    let lastError: any = null;
+
+    for (const modelName of tutorModels) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: modelName,
+          systemInstruction: 'You are an encouraging, expert AI Personal Tutor for a student. Keep your explanations clear, structured, and easy to understand. Use Markdown formatting. If the student asks a math/science question, explain step-by-step. If they ask a coding question, write clean code with comments. Always maintain a helpful, teacher-like tone.',
+        });
+
+        const chat = model.startChat({
+          history: formattedHistory,
+        });
+
+        const result = await chat.sendMessage(question);
+        const response = await result.response;
+        const answer = response.text();
+
+        return res.json({ answer });
+      } catch (error: any) {
+        lastError = error;
+        console.warn(`Gemini model ${modelName} failed:`, error.message);
+      }
+    }
+
+    return res.json({
+      answer: buildFallbackAnswer(
+        question,
+        lastError?.status === 503
+          ? 'Google Gemini is currently reporting high demand.'
+          : 'The configured AI provider could not generate a response.'
+      ),
     });
-
-    const result = await chat.sendMessage(question);
-    const response = await result.response;
-    const answer = response.text();
-
-    return res.json({ answer });
   } catch (error: any) {
     console.error('Error querying Gemini API:', error);
-    return res.status(500).json({ 
-      error: 'Failed to generate answer from AI tutor.',
-      details: error.message 
+    return res.json({
+      answer: buildFallbackAnswer(question, 'The AI tutor backend hit an unexpected error.'),
     });
   }
 });
